@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://dp4uwdybgydcm"]
+
+[ext_resource type="PackedScene" uid="uid://dke2385wcigyj" path="res://scenes/player/player.tscn" id="1_cfjva"]
+[ext_resource type="Texture2D" uid="uid://mcdscge7uyjg" path="res://assets/Environment/2d_metroidvania_serie_mockup_1_tileset.png" id="2_2lb6k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2lb6k"]
+size = Vector2(48, 16)
+
+[node name="level_1" type="Node2D" unique_id=811097117]
+
+[node name="Player" parent="." unique_id=1672403084 instance=ExtResource("1_cfjva")]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1876823225]
+zoom = Vector2(3, 3)
+
+[node name="Floor" type="Node2D" parent="." unique_id=1768830477]
+position = Vector2(-48, 55)
+
+[node name="Floor1" type="StaticBody2D" parent="Floor" unique_id=595952370]
+position = Vector2(95, -4)
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor/Floor1" unique_id=1694300260]
+texture = ExtResource("2_2lb6k")
+region_enabled = true
+region_rect = Rect2(32, 80, 48, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Floor1" unique_id=197221402]
+shape = SubResource("RectangleShape2D_2lb6k")
+
+[node name="Floor2" type="StaticBody2D" parent="Floor" unique_id=1630150807]
+position = Vector2(47, -4)
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor/Floor2" unique_id=481223738]
+texture = ExtResource("2_2lb6k")
+region_enabled = true
+region_rect = Rect2(32, 80, 48, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Floor2" unique_id=464213072]
+shape = SubResource("RectangleShape2D_2lb6k")
+
+[node name="Floor3" type="StaticBody2D" parent="Floor" unique_id=782772147]
+position = Vector2(-1, -4)
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor/Floor3" unique_id=1732393756]
+texture = ExtResource("2_2lb6k")
+region_enabled = true
+region_rect = Rect2(32, 80, 48, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Floor3" unique_id=2114729917]
+shape = SubResource("RectangleShape2D_2lb6k")
