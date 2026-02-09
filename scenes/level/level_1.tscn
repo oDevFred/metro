@@ -9,6 +9,7 @@ size = Vector2(48, 16)
 [node name="level_1" type="Node2D" unique_id=811097117]
 
 [node name="Player" parent="." unique_id=1672403084 instance=ExtResource("1_cfjva")]
+position = Vector2(1, -60)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1876823225]
 zoom = Vector2(3, 3)
