@@ -1,15 +1,5 @@
 extends CharacterBody2D
 
-# ============================================================
-# Player Controller - Metroidvania Movement
-# Godot 4.x | CharacterBody2D
-# ============================================================
-# Inputs esperados no InputMap:
-#   "right" -> D, Seta Direita
-#   "left"  -> A, Seta Esquerda
-#   "jump"  -> Espaço, K
-# ============================================================
-
 # --- Movimento Horizontal ---
 @export_group("Movimento")
 @export var max_speed: float = 200.0          ## Velocidade máxima horizontal
@@ -37,10 +27,6 @@ extends CharacterBody2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 # --- Gravidade Calculada (assimétrica) ---
-# Fórmulas baseadas em cinemática para controle preciso:
-#   gravity_up   = 2 * jump_height / jump_time_to_peak²
-#   gravity_down = 2 * jump_height / jump_time_to_fall²
-#   jump_velocity = -2 * jump_height / jump_time_to_peak
 @onready var gravity_up: float = (2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)
 @onready var gravity_down: float = (2.0 * jump_height) / (jump_time_to_fall * jump_time_to_fall)
 @onready var jump_velocity: float = -(2.0 * jump_height) / jump_time_to_peak
@@ -51,7 +37,6 @@ var _jump_buffer_timer: float = 0.0
 var _is_jumping: bool = false
 var _was_on_floor: bool = false
 var _facing_direction: float = 1.0  # 1.0 = direita, -1.0 = esquerda
-
 
 func _physics_process(delta: float) -> void:
 	var input_direction: float = _get_input_direction()
@@ -66,19 +51,11 @@ func _physics_process(delta: float) -> void:
 	_was_on_floor = is_on_floor()
 	move_and_slide()
 
-
-# ============================================================
 # INPUT
-# ============================================================
-
 func _get_input_direction() -> float:
 	return Input.get_axis("left", "right")
 
-
-# ============================================================
 # TIMERS (Coyote Time + Jump Buffer)
-# ============================================================
-
 func _update_timers(delta: float) -> void:
 	# Coyote Time: permite pular por um curto período após sair da borda
 	if is_on_floor():
@@ -96,10 +73,7 @@ func _update_timers(delta: float) -> void:
 	else:
 		_jump_buffer_timer = maxf(_jump_buffer_timer - delta, 0.0)
 
-
-# ============================================================
 # GRAVIDADE (Assimétrica)
-# ============================================================
 
 func _apply_gravity(delta: float) -> void:
 	if is_on_floor():
@@ -114,11 +88,7 @@ func _apply_gravity(delta: float) -> void:
 
 	velocity.y = minf(velocity.y + current_gravity * delta, max_fall_speed)
 
-
-# ============================================================
 # PULO
-# ============================================================
-
 func _handle_jump() -> void:
 	var can_jump: bool = is_on_floor() or _coyote_timer > 0.0
 	var wants_jump: bool = _jump_buffer_timer > 0.0
@@ -138,11 +108,7 @@ func _handle_jump() -> void:
 	if is_on_floor():
 		_is_jumping = false
 
-
-# ============================================================
 # MOVIMENTO HORIZONTAL (com aceleração/desaceleração)
-# ============================================================
-
 func _apply_horizontal_movement(input_dir: float, delta: float) -> void:
 	if input_dir != 0.0:
 		# Detecta se está mudando de direção (turn around)
@@ -169,11 +135,7 @@ func _apply_horizontal_movement(input_dir: float, delta: float) -> void:
 
 		velocity.x = move_toward(velocity.x, 0.0, decel * delta)
 
-
-# ============================================================
 # ANIMAÇÕES
-# ============================================================
-
 func _update_animation(input_dir: float) -> void:
 	if not is_on_floor():
 		if velocity.y < 0.0:
@@ -190,11 +152,7 @@ func _play_animation(anim_name: StringName) -> void:
 	if animation_player.current_animation != anim_name:
 		animation_player.play(anim_name)
 
-
-# ============================================================
 # DIREÇÃO DO SPRITE (Flip)
-# ============================================================
-
 func _update_sprite_direction(input_dir: float) -> void:
 	if input_dir != 0.0:
 		_facing_direction = signf(input_dir)
